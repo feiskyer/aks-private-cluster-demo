@@ -2,30 +2,13 @@
 
 ## Pre-requirements
 
-* Azure CLI and terraform installed locally 
+* Azure CLI and terraform installed locally
 * Pre-configure DNS servers outside of AKS VNet
 * Forward AKS cluster FQDN `azmk8s.io` (or only private cluster FQDN `privatelink.<region>.azmk8s.io`) to Azure DNS `168.63.129.16`
 * Get the DNS servers IP address, which would be set in `custom_dns` on next section
 * Get the DNS server's VNet resource ID, which would be set in `custom_dns_vnet_id` on next section
 
-Here are the example configurations required for bind:
-
-```conf
-zone "azmk8s.io" {
-    type forward;
-    forwarders {
-        168.63.129.16;
-    };
-};
-
-options {
-    // default max-ncache-ttl 10800 seconds (3 hours) is too long.
-    max-ncache-ttl 15;
-
-    // other options
-    ...
-};
-```
+> Refer [dns-server](dns-server/README.md) for example configuration with bind.
 
 ## How to deploy
 

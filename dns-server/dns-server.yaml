@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bind
+spec:
+  externalTrafficPolicy: Local
+  ports:
+  - name: dns
+    port: 53
+    protocol: UDP
+    targetPort: 53
+  selector:
+    app: bind
+  sessionAffinity: None
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: bind
+  name: bind
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bind
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: bind
+    spec:
+      containers:
+      - image: feisky/bind
+        imagePullPolicy: IfNotPresent
+        name: bind
+        ports:
+        - containerPort: 53
+          name: dns
+          protocol: UDP
+        - containerPort: 53
+          name: dns-tcp
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 170Mi
+          requests:
+            cpu: 100m
+            memory: 70Mi
+      dnsPolicy: Default
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+      restartPolicy: Always
+      securityContext: {}
