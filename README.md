@@ -1,7 +1,8 @@
 # Setup AKS Private Cluster with BYO DNS
 
-## Pre-requirement
+## Pre-requirements
 
+* Azure CLI and terraform installed locally 
 * Pre-configure DNS servers outside of AKS VNet
 * Forward AKS cluster FQDN `azmk8s.io` (or only private cluster FQDN `privatelink.<region>.azmk8s.io`) to Azure DNS `168.63.129.16`
 * Get the DNS servers IP address, which would be set in `custom_dns` on next section
