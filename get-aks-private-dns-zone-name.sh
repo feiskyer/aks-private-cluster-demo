@@ -8,5 +8,4 @@ aksPrivateDnsZone=$(az network private-dns zone list \
     --query [0].name \
     -o tsv)
 
-# Write output
 jq -n --arg aksPrivateDnsZone "$aksPrivateDnsZone" '{"aks_private_dns_zone":$aksPrivateDnsZone}'
