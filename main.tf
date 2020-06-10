@@ -1,8 +1,4 @@
 provider "azurerm" {
-  version = "~>2.11"
+  version = "~>2.5"
   features {}
-}
-
-provider "external" {
-  version = "=1.2.0"
 }
